@@ -1,5 +1,5 @@
-"use client";
-import NextLink from "next/link";
+"use client"
+import NextLink from "next/link"
 import {
   Alert,
   Container,
@@ -10,7 +10,7 @@ import {
   Tag,
   Text,
   useColorModeValue,
-} from "@chakra-ui/react";
+} from "@chakra-ui/react"
 
 export default function HomeClientPage() {
   return (
@@ -29,15 +29,16 @@ export default function HomeClientPage() {
           borderWidth="1px"
           borderRadius="md"
         >
-          Superagent is in public beta, expect rapid updates. All feedback
-          appreciated.
+          Lacra Labs is reimagining the future of Athletics using AI Agents. We
+          are in early alpha so expect rapid updates. To get access, join our{" "}
+          <Link href="https://discord.gg/e1">Discord Server</Link>
         </Alert>
         <Stack>
           <HStack>
             <Heading as="h1" fontSize="2xl">
-              Superagent
+              Lacra Labs
             </Heading>
-            <Tag size="sm">Beta</Tag>
+            <Tag size="sm">Alpha</Tag>
           </HStack>
           <Text>
             Superagent is a platform that enables you to create, manage and run
@@ -81,5 +82,5 @@ export default function HomeClientPage() {
         </Text>
       </Stack>
     </Container>
-  );
+  )
 }

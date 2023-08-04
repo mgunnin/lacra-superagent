@@ -1,5 +1,5 @@
-"use client";
-import NextLink from "next/link";
+"use client"
+import NextLink from "next/link"
 import {
   Button,
   Container,
@@ -16,50 +16,50 @@ import {
   Divider,
   Box,
   AbsoluteCenter,
-} from "@chakra-ui/react";
-import { signIn } from "next-auth/react";
-import { useForm } from "react-hook-form";
-import { useSession } from "next-auth/react";
-import { SUPERAGENT_VERSION } from "@/lib/constants";
-import { FaGithub, FaMicrosoft, FaGoogle } from "react-icons/fa6";
-import { analytics } from "@/lib/analytics";
+} from "@chakra-ui/react"
+import { signIn } from "next-auth/react"
+import { useForm } from "react-hook-form"
+import { useSession } from "next-auth/react"
+import { LACRALABS_VERSION } from "@/lib/constants"
+import { FaGithub, FaMicrosoft, FaGoogle } from "react-icons/fa6"
+import { analytics } from "@/lib/analytics"
 
 export default function Login() {
   const hasOauthOptions =
     process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ||
     process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID ||
-    process.env.NEXT_PUBLIC_AZURE_AD_CLIENT_ID;
-  const session = useSession();
+    process.env.NEXT_PUBLIC_AZURE_AD_CLIENT_ID
+  const session = useSession()
   if (session.data) {
-    window.location.href = "/";
+    window.location.href = "/"
   }
-  const backgroundColor = useColorModeValue("#fff", "#131416");
+  const backgroundColor = useColorModeValue("#fff", "#131416")
   const {
     formState: { isSubmitting, errors },
     register,
     handleSubmit,
-  } = useForm();
+  } = useForm()
   const onSubmit = async (data) => {
     if (process.env.NEXT_PUBLIC_SEGMENT_WRITE_KEY) {
-      analytics.track("Signed In");
+      analytics.track("Signed In")
     }
 
     await signIn("credentials", {
       ...data,
       redirect: true,
       callbackUrl: "/",
-    });
-  };
+    })
+  }
 
   const handleOAuth = async (providerId) => {
     if (process.env.NEXT_PUBLIC_SEGMENT_WRITE_KEY) {
-      analytics.track("Signed In");
+      analytics.track("Signed In")
     }
     await signIn(providerId, {
       redirect: true,
       callbackUrl: "/",
-    });
-  };
+    })
+  }
 
   return (
     <Container
@@ -72,9 +72,9 @@ export default function Login() {
       <Stack spacing={8} minHeight="100vh" justifyContent="center">
         <HStack spacing={4} justifyContent="center" alignItems="center">
           <Text as="strong" fontSize="2xl">
-            Superagent
+            Lacra Labs
           </Text>
-          <Tag size="sm">{SUPERAGENT_VERSION}</Tag>
+          <Tag size="sm">{LACRALABS_VERSION}</Tag>
         </HStack>
 
         <Stack>
@@ -157,5 +157,5 @@ export default function Login() {
         </Stack>
       </Stack>
     </Container>
-  );
+  )
 }
