@@ -1,4 +1,4 @@
-export const SUPERAGENT_VERSION = "v0.0.46";
+export const LACRALABS_VERSION = "v.0.0.1"
 
 export const TOOL_ICONS = {
   SEARCH: "/bing-icon.png",
@@ -7,7 +7,7 @@ export const TOOL_ICONS = {
   ZAPIER_NLA: "/zapier-icon.png",
   CHATGPT_PLUGIN: "/chatgpt-icon.png",
   AGENT: "/",
-};
+}
 
 export const UPCOMING_TOOLS = [
   {
@@ -15,4 +15,4 @@ export const UPCOMING_TOOLS = [
     name: "Web researcher",
     type: "/logo.png",
   },
-];
+]

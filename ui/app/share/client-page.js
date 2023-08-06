@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import {
   Button,
   Box,
@@ -18,18 +18,18 @@ import {
   useColorModeValue,
   Avatar,
   useToast,
-} from "@chakra-ui/react";
-import NextLink from "next/link";
-import React, { useState } from "react";
-import { TbArrowRight, TbSend, TbCopy } from "react-icons/tb";
-import { useSession } from "next-auth/react";
-import { useForm } from "react-hook-form";
-import remarkGfm from "remark-gfm";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { dracula } from "react-syntax-highlighter/dist/esm/styles/prism";
-import { BeatLoader } from "react-spinners";
-import { SUPERAGENT_VERSION } from "@/lib/constants";
-import { ReactMarkdown } from "react-markdown/lib/react-markdown";
+} from "@chakra-ui/react"
+import NextLink from "next/link"
+import React, { useState } from "react"
+import { TbArrowRight, TbSend, TbCopy } from "react-icons/tb"
+import { useSession } from "next-auth/react"
+import { useForm } from "react-hook-form"
+import remarkGfm from "remark-gfm"
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter"
+import { dracula } from "react-syntax-highlighter/dist/esm/styles/prism"
+import { BeatLoader } from "react-spinners"
+import { LACRALABS_VERSION } from "@/lib/constants"
+import { ReactMarkdown } from "react-markdown/lib/react-markdown"
 
 function LoadingMessage() {
   return (
@@ -39,7 +39,7 @@ function LoadingMessage() {
         <Text color="#777">Thinking...</Text>
       </HStack>
     </Container>
-  );
+  )
 }
 
 function Message({ agent, message, type }) {
@@ -68,12 +68,12 @@ function Message({ agent, message, type }) {
             <ReactMarkdown
               components={{
                 code({ node, inline, className, children, ...props }) {
-                  const value = String(children).replace(/\n$/, "");
-                  const match = /language-(\w+)/.exec(className || "");
+                  const value = String(children).replace(/\n$/, "")
+                  const match = /language-(\w+)/.exec(className || "")
 
                   const handleCopyCode = () => {
-                    navigator.clipboard.writeText(value);
-                  };
+                    navigator.clipboard.writeText(value)
+                  }
 
                   return !inline ? (
                     <Box position="relative">
@@ -102,7 +102,7 @@ function Message({ agent, message, type }) {
                     <Code fontSize="sm" className={className} {...props}>
                       {children}
                     </Code>
-                  );
+                  )
                 },
               }}
               remarkPlugins={[remarkGfm]}
@@ -113,28 +113,28 @@ function Message({ agent, message, type }) {
         )}
       </HStack>
     </Container>
-  );
+  )
 }
 
 export default function ShareClientPage({ agent, token }) {
-  const toast = useToast();
-  const [messages, setMessages] = useState([]);
-  const fontColor = useColorModeValue("white", "white");
-  const session = useSession();
+  const toast = useToast()
+  const [messages, setMessages] = useState([])
+  const fontColor = useColorModeValue("white", "white")
+  const session = useSession()
   const {
     register,
     handleSubmit,
     reset,
     formState: { isSubmitting },
-  } = useForm();
+  } = useForm()
 
   const onSubmit = async (values) => {
-    const { input } = values;
+    const { input } = values
 
     setMessages((previousMessages) => [
       ...previousMessages,
       { type: "human", message: input },
-    ]);
+    ])
 
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_SUPERAGENT_API_URL}/agents/${agent.id}/predict`,
@@ -149,33 +149,33 @@ export default function ShareClientPage({ agent, token }) {
           has_streaming: false,
         }),
       }
-    );
-    const output = await response.json();
+    )
+    const output = await response.json()
 
     setMessages((previousMessages) => [
       ...previousMessages,
       { type: "ai", message: output.data },
-    ]);
+    ])
 
-    reset();
-  };
+    reset()
+  }
 
   const handleCopyShareLink = () => {
     const baseUrl =
       typeof window !== "undefined"
         ? window.location.origin
-        : "https://app.superagent.sh";
+        : "https://app.superagent.sh"
 
     navigator.clipboard.writeText(
       `${baseUrl}/share?agentId=${agent.id}&token=${token}`
-    );
+    )
 
     toast({
       description: "Share link copied!",
       position: "top",
       colorScheme: "gray",
-    });
-  };
+    })
+  }
 
   return (
     <Stack
@@ -192,7 +192,7 @@ export default function ShareClientPage({ agent, token }) {
             <Text as="strong" color={fontColor} fontSize="lg">
               Superagent
             </Text>
-            <Tag size="sm">{SUPERAGENT_VERSION}</Tag>
+            <Tag size="sm">{LACRALABS_VERSION}</Tag>
           </HStack>
           <HStack>
             <IconButton
@@ -301,5 +301,5 @@ export default function ShareClientPage({ agent, token }) {
         </InputRightElement>
       </InputGroup>
     </Stack>
-  );
+  )
 }

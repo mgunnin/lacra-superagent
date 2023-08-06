@@ -1,6 +1,6 @@
-"use client";
-import NextLink from "next/link";
-import ky from "ky";
+"use client"
+import NextLink from "next/link"
+import ky from "ky"
 import {
   Button,
   Container,
@@ -12,48 +12,48 @@ import {
   Stack,
   Tag,
   Text,
-} from "@chakra-ui/react";
-import { signIn } from "next-auth/react";
-import { useForm } from "react-hook-form";
-import { SUPERAGENT_VERSION } from "@/lib/constants";
-import { stripe } from "@/lib/stripe";
-import { analytics } from "@/lib/analytics";
+} from "@chakra-ui/react"
+import { signIn } from "next-auth/react"
+import { useForm } from "react-hook-form"
+import { LACRALABS_VERSION } from "@/lib/constants"
+import { stripe } from "@/lib/stripe"
+import { analytics } from "@/lib/analytics"
 
 export default function Register() {
   const {
     formState: { isSubmitting, errors },
     register,
     handleSubmit,
-  } = useForm();
+  } = useForm()
   const onSubmit = async (data) => {
-    let payload = { ...data };
+    let payload = { ...data }
 
     if (process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY) {
       const { id: stripeCustomerId } = await stripe.customers.create({
         email: data.email,
         name: data.name,
-      });
+      })
 
       const subscription = await stripe.subscriptions.create({
         customer: stripeCustomerId,
         items: [{ price: process.env.NEXT_PUBLIC_STRIPE_FREE_PLAN_ID }],
-      });
+      })
 
-      payload.metadata = { stripe_customer_id: stripeCustomerId, subscription };
+      payload.metadata = { stripe_customer_id: stripeCustomerId, subscription }
     }
 
     await ky
       .post(`${process.env.NEXT_PUBLIC_SUPERAGENT_API_URL}/auth/sign-up`, {
         json: payload,
       })
-      .json();
+      .json()
 
     if (process.env.NEXT_PUBLIC_SEGMENT_WRITE_KEY) {
       analytics.track("Signed Up", {
         email: data.email,
         name: data.name,
         stripe_customer_id: payload.metadata?.stripeCustomerId,
-      });
+      })
     }
 
     await signIn("credentials", {
@@ -61,8 +61,8 @@ export default function Register() {
       password: data.password,
       redirect: true,
       callbackUrl: "/",
-    });
-  };
+    })
+  }
 
   return (
     <Container
@@ -75,9 +75,9 @@ export default function Register() {
       <Stack spacing={8} minHeight="100vh" justifyContent="center">
         <HStack spacing={4} justifyContent="center" alignItems="center">
           <Text as="strong" fontSize="2xl">
-            Superagent
+            Lacra Labs
           </Text>
-          <Tag size="sm">{SUPERAGENT_VERSION}</Tag>
+          <Tag size="sm">{LACRALABS_VERSION}</Tag>
         </HStack>
         <Stack>
           <FormControl isInvalid={errors?.name}>
@@ -129,5 +129,5 @@ export default function Register() {
         </HStack>
       </Stack>
     </Container>
-  );
+  )
 }

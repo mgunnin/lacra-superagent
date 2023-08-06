@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import {
   Button,
   HStack,
@@ -7,27 +7,27 @@ import {
   Tag,
   Text,
   useColorModeValue,
-} from "@chakra-ui/react";
-import NextLink from "next/link";
-import { TbArrowRight } from "react-icons/tb";
-import { SUPERAGENT_VERSION } from "@/lib/constants";
+} from "@chakra-ui/react"
+import NextLink from "next/link"
+import { TbArrowRight } from "react-icons/tb"
+import { LACRALABS_VERSION } from "@/lib/constants"
 
 export default function MainNav() {
-  const fontColor = useColorModeValue("white", "dark");
+  const fontColor = useColorModeValue("white", "dark")
 
   return (
     <HStack paddingY={6} justifyContent="space-between">
       <HStack spacing={4}>
         <Text as="strong" color={fontColor} fontSize="lg">
-          Superagent
+          Lacra Labs
         </Text>
-        <Tag size="sm">{SUPERAGENT_VERSION}</Tag>
+        <Tag size="sm">{LACRALABS_VERSION}</Tag>
       </HStack>
       <HStack spacing={4} display={{ base: "none", md: "flex" }}>
-        <Link href="https://discord.gg/mhmJUTjW4b" color={fontColor}>
+        <Link href="https://discord.gg/e1" color={fontColor}>
           Discord
         </Link>
-        <Link href="https://github.com/homanp/superagent" color={fontColor}>
+        <Link href="https://github.com/mgunnin/superagent" color={fontColor}>
           Github
         </Link>
         <Link
@@ -50,5 +50,5 @@ export default function MainNav() {
         </NextLink>
       </HStack>
     </HStack>
-  );
+  )
 }
