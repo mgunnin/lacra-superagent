@@ -1,3 +1,4 @@
+import json
 from datetime import datetime, timedelta, timezone
 from typing import Dict
 
@@ -79,7 +80,8 @@ class JWTBearer(HTTPBearer):
                         raise HTTPException(
                             status_code=403, detail="Invalid token or expired token."
                         )
-                    return signJWT(tokens_data.userId)
+
+                    return json.loads(tokens_data.json())
 
             return decodeJWT(credentials.credentials)
 
